@@ -17,7 +17,7 @@ public:
     {
         vector<vector<int>> subsets;
         sort(nums.begin(),nums.end());
-        subsets = {};
+        subsets = {{}};
         if (nums.empty())
         {
             return subsets;
