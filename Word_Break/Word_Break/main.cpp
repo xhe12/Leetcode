@@ -43,7 +43,19 @@ public:
         {
             dict.insert(wordDict[i]);
         }
-        
+        for(int i = 0; i<s.size(); i++)
+        {
+            for(int j = i; j<s.size(); j++)
+            {
+                string str = s.substr(i,j-i+1);
+                auto itr = dict.find(str);
+                if(itr!=dict.end())
+                {
+                    validString[i] = j; // string s[i:j] is a valid string
+                }
+            }
+        }
+        return breakableWithMap(validString,0,s.length());
     }
 private:
     bool breakable(const vector<vector<bool>> &validationChart, int j)
@@ -61,6 +73,14 @@ private:
             
         }
         return false;
+    }
+    bool breakableWithMap(const unordered_map<int, int> &validString, int j, int n)
+    {
+        if(j>=n)
+        {
+            return true;
+        }
+        
     }
 };
 
