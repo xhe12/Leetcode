@@ -35,27 +35,33 @@ public:
         return breakable(validationChart, 0);
 
     }
-    bool wordBreak_Improve(string s, vector<string> &wordDict){
+    
+    bool wordBreak_DP(string s, vector<string> &wordDict)
+    {
         unordered_set<string> dict;
-        unordered_map<int,int> validString;
-        
         for(int i = 0; i<wordDict.size(); i++)
         {
             dict.insert(wordDict[i]);
         }
-        for(int i = 0; i<s.size(); i++)
+        vector<bool> isBreakable(s.length(),false);
+        
+        for(int i = 0; i<s.length(); i++)
         {
-            for(int j = i; j<s.size(); j++)
+            if(dict.find(s.substr(0,i+1))!=dict.end())
             {
-                string str = s.substr(i,j-i+1);
-                auto itr = dict.find(str);
-                if(itr!=dict.end())
+                isBreakable[i] = true;
+                continue;
+            }
+            for(int j = 0; j<i; j++)
+            {
+                if(isBreakable[j] && dict.find(s.substr(j+1,i-j))!=dict.end())
                 {
-                    validString[i] = j; // string s[i:j] is a valid string
+                    isBreakable[i] = true;
+                    break;
                 }
             }
         }
-        return breakableWithMap(validString,0,s.length());
+        return isBreakable[s.length()-1];
     }
 private:
     bool breakable(const vector<vector<bool>> &validationChart, int j)
@@ -74,20 +80,13 @@ private:
         }
         return false;
     }
-    bool breakableWithMap(const unordered_map<int, int> &validString, int j, int n)
-    {
-        if(j>=n)
-        {
-            return true;
-        }
-        
-    }
+
 };
 
 int main(int argc, const char * argv[]) {
-    string s = "aaaaaaa";
-    vector<string> wordDict = {"aaaa","aaa"};
+    string s = "leetcode";
+    vector<string> wordDict = {"leet","code"};
     Solution sol;
-    sol.wordBreak(s, wordDict);
+    sol.wordBreak_DP(s, wordDict);
     return 0;
 }
