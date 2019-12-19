@@ -12,6 +12,7 @@
 using namespace std;
 
 class Solution{
+public:
     vector<string> wordBreakII(string s, vector<string> &wordDict)
     {
         unordered_set<string> dict;
@@ -34,7 +35,7 @@ class Solution{
             }
             for(int j=s.length()-1; j>i; j--)
             {
-                if(separatingIndx[i][0]<=s.length() && dict.find(s.substr(i,j-i))!=dict.end())
+                if(separatingIndx[j][0]<=s.length() && dict.find(s.substr(i,j-i))!=dict.end())
                 {
                     separatingIndx[i].push_back(j);
                     flag = 1;
@@ -45,7 +46,7 @@ class Solution{
                 separatingIndx[i].push_back(s.length()+1);
             }
         }
-        if(separatingIndx[0][0]>=s.length())
+        if(separatingIndx[0][0]>s.length())
         {
             return {};
         }
@@ -60,6 +61,7 @@ class Solution{
     {
         if(startIndx>=n)
         {
+            curCombination.pop_back();
             allCombinations.push_back(curCombination);
             return;
         }
@@ -67,6 +69,7 @@ class Solution{
         {
             string temp = curCombination;
             curCombination.append(s.substr(startIndx,k-startIndx));
+            curCombination.push_back(' ');
             findAllValidCombinations(separatingIndx, k, curCombination, allCombinations, n, s);
             curCombination = temp;
         }
@@ -74,7 +77,9 @@ class Solution{
 };
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    string s = "a";
+    vector<string> wordDict={"a"};
+    Solution sol;
+    sol.wordBreakII(s, wordDict);
     return 0;
 }
