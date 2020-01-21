@@ -23,10 +23,10 @@ public:
         /*if(row < E.row){return true;}
         else if(row == E.row && col < E.col){return true;}
         else{return false;}*/
-        return row<E.row;
+        return this->row<E.row;
     }
     bool operator >(const ZigZagElement& E) const{
-        return row>E.row;
+        return this->row>E.row;
     }
 };
 
