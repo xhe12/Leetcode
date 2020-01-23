@@ -36,22 +36,42 @@ class Solution{
                 tail = merge(left,right,tail);
             }
         }
-        
-        return dummy->next;
+        ListNode *newHead = dummy->next;
+        delete dummy;
+        return newHead;
     }
     
+    
     ListNode* split(ListNode *node,int step){
-        if(node==nullptr){return nullptr;}
+        
         for(int i = 1; node&&i<step; i++){
             node = node->next;
         }
         if(!node)return nullptr;
         
-        return node->next;
-    }
-    ListNode* merge(ListNode* left, ListNode* right, ListNode* tail){
+        ListNode *nextNode = node->next;
+        node->next = nullptr;
         
-        return tail;
+        return nextNode;
+    }
+    
+    ListNode* merge(ListNode* left, ListNode* right, ListNode* tail){
+        ListNode *leftPtr = left, *rightPtr = right, *cur = tail;
+        while(leftPtr&&rightPtr){
+            if(leftPtr->val <= rightPtr->val){
+                cur->next = leftPtr;
+                leftPtr = leftPtr->next;
+            }
+            else{
+                cur->next = rightPtr;
+                rightPtr = rightPtr->next;
+            }
+            cur = cur->next;
+        }
+        if(leftPtr)cur->next = leftPtr;
+        else cur->next = rightPtr;
+        while(cur->next){cur = cur->next;}
+        return cur;
     }
 };
 
